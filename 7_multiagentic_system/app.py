@@ -7,7 +7,7 @@ from langgraph.constants import Send
 from openai import OpenAI
 from langchain_openai import ChatOpenAI
 #custom imports 
-from agents import research_agent, math_agent
+from agents import research_agent, math_agent, file_management_agent
 
 from langgraph_supervisor import create_supervisor
 
@@ -46,12 +46,13 @@ def display_graph(app):
         
 # Create supervisor workflow
 workflow = create_supervisor(
-    [research_agent, math_agent],
+    [research_agent, math_agent, file_management_agent],
     model=model,
     prompt=(
-        "You are a team supervisor managing a research expert and a math expert. "
+        "You are a team supervisor managing a research expert, math expert and a file management expert. "
         "For current events, use research_agent. "
-        "For math problems, use math_agent."
+        "For math problems, use math_agent. "
+        "For file management, use file_management_agent. "
         "If a query involves both research and math, first use research_agent to get data, "
         "then use math_agent with the research results. "
         "IMPORTANT: Each agent should be called at most once for a specific subtask."
@@ -66,7 +67,7 @@ if __name__ == "__main__":
         "messages": [
             {
                 "role": "user",
-                "content": "what is temp of delhi now and can you add 15 to the temperature and then multiply by 10"  # Simple math query for testing
+                "content": "create a file called test.txt and write the content 'Hello, World!' to it in Desktop"
             }
         ]
     })

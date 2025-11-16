@@ -15,7 +15,7 @@ model = ChatOpenAI(
 )
 
 #custom imports 
-from tools import add, multiply , subtract , divide , search_tavily
+from tools import add, multiply , subtract , divide , search_tavily, file_management_tools
 
 # Using the correct import for langchain
 from langgraph.prebuilt import create_react_agent
@@ -34,4 +34,11 @@ research_agent = create_react_agent(
     tools=[search_tavily],
     name="research_expert",
     prompt="You are a world class researcher with access to web search. Do not do any math."
+)
+
+file_management_agent = create_react_agent(
+    model=model,
+    tools=file_management_tools,
+    name="file_management_expert",
+    prompt="You are a file management expert. Always use one tool at a time."
 )

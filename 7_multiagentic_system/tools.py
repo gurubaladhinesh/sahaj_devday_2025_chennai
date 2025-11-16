@@ -1,5 +1,9 @@
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_community.tools import TavilySearchResults
+from langchain_community.tools.file_management import (
+    CopyFileTool, DeleteFileTool, FileSearchTool, ListDirectoryTool,
+    MoveFileTool, ReadFileTool, WriteFileTool
+)
 
 def search_duckduckgo(query: str):
     """Searches DuckDuckGo using LangChain's DuckDuckGoSearchRun tool."""
@@ -26,4 +30,16 @@ def subtract(a: float, b: float) -> float:
 def divide(a: float, b: float) -> float:
     """Divide two numbers."""
     return a / b
+
+# Load all file management tools dynamically
+_file_management_classes = [
+    CopyFileTool, DeleteFileTool, FileSearchTool, ListDirectoryTool,
+    MoveFileTool, ReadFileTool, WriteFileTool
+]
+
+file_management_tools = [tool_class() for tool_class in _file_management_classes]
+file_management_tools_dict = {
+    tool.name.replace(" ", "_").lower(): tool 
+    for tool in file_management_tools
+}
 
