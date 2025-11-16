@@ -1,6 +1,18 @@
+import os
 from langchain_openai import ChatOpenAI
 
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# GitHub model configuration
+token = os.environ.get("GITHUB_TOKEN")
+endpoint = "https://models.github.ai/inference"
+model_name = "openai/gpt-4o-mini"
+
+# Use ChatOpenAI with GitHub model endpoint
+model = ChatOpenAI(
+    model=model_name,
+    temperature=0,
+    openai_api_key=token,
+    openai_api_base=endpoint,
+)
 
 #custom imports 
 from tools import add, multiply , subtract , divide , search_tavily

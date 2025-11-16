@@ -4,13 +4,31 @@ load_dotenv()
 from IPython.display import Image, display
 from langgraph.graph import StateGraph, START, END
 from langgraph.constants import Send
+from openai import OpenAI
 from langchain_openai import ChatOpenAI
 #custom imports 
 from agents import research_agent, math_agent
 
 from langgraph_supervisor import create_supervisor
 
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# GitHub model configuration
+token = os.environ.get("GITHUB_TOKEN")
+endpoint = "https://models.github.ai/inference"
+model_name = "openai/gpt-4o-mini"
+
+# Initialize OpenAI client with GitHub endpoint
+github_client = OpenAI(
+    base_url=endpoint,
+    api_key=token,
+)
+
+# Use ChatOpenAI with GitHub model endpoint
+model = ChatOpenAI(
+    model=model_name,
+    temperature=0,
+    openai_api_key=token,
+    openai_api_base=endpoint,
+)
 
 def display_graph(app):
     # this function will display the graph of the app and save it
